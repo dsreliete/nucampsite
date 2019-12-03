@@ -5,7 +5,7 @@ function RenderCampsite({campsite}) {
     return (
         <div className="col-md-5 m-1">
             <Card>
-                <CardImg top src={campsite.image} alt={campsite.name} />
+                <CardImg src={campsite.image} alt={campsite.name} />
                 <CardBody>
                     <CardTitle>{campsite.name}</CardTitle>
                     <CardText>{campsite.description}</CardText>
@@ -35,12 +35,13 @@ function RenderComments({comments}) {
 
 function CampsiteInfo(props) {
     const campsite = props.campsite
-    if(campsite) {
+    const comments = props.comments
+    if(campsite && comments) {
         return(
             <div className="container">
                 <div className="row">
-                    <RenderCampsite campsite={props.campsite}/>
-                    <RenderComments comments={props.campsite.comments} />
+                    <RenderCampsite campsite={campsite}/>
+                    <RenderComments comments={comments} />
                 </div>
             </div>
         );
