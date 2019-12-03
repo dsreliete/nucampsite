@@ -22,13 +22,13 @@ function Directory(props) {
         );
     });
 
-        return (
-            <div className="container">
-                <div className="row">
-                    {directory}
-                </div>
+    return (
+        <div className="container">
+            <div className="row">
+                {directory}
             </div>
-        );
+        </div>
+    );
 }
 
 
