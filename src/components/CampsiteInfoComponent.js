@@ -3,6 +3,7 @@ import { Card, CardImg, CardText, CardBody, Breadcrumb,
     BreadcrumbItem, Button, Modal, ModalHeader, ModalBody, Row, Label, Col } from 'reactstrap';
 import { LocalForm, Control, Errors } from 'react-redux-form';
 import { Link } from 'react-router-dom';
+import { Loading } from './LoadingComponent';
 
 function RenderCampsite({campsite}) {
     return (
@@ -25,7 +26,8 @@ function RenderComments({comments, addComment, campsiteId}) {
                 { comments.map(comment => {
                     return <div key={comment.id}>
                                 <p>{comment.text}</p>
-                                <p>-- {comment.author} 
+                                <p>{comment.rating}</p>
+                                <p>-- {comment.author}{' '}
                                     {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit'})
                                         .format(new Date(Date.parse(comment.date)))}
                                 </p>
@@ -40,23 +42,43 @@ function RenderComments({comments, addComment, campsiteId}) {
 }
 
 function CampsiteInfo(props) {
-    const campsite = props.campsite
-    // const comments = props.comments
-    if(campsite) {
+    if (props.isLoading) {
+        return (
+            <div className="container">
+                <div className="row">
+                    <Loading />
+                </div>
+            </div>
+        );
+    }
+
+    if (props.errMess) {
+        return (
+            <div className="container">
+                <div className="row">
+                    <div className="col">
+                        <h4>{props.errMess}</h4>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    if(props.campsite) {
         return(
             <div className="container">
                 <div className="row">
                     <div className="col">
                         <Breadcrumb>
                             <BreadcrumbItem><Link to="/directory">Directory</Link></BreadcrumbItem>
-                            <BreadcrumbItem active>{campsite.name}</BreadcrumbItem>
+                            <BreadcrumbItem active>{props.campsite.name}</BreadcrumbItem>
                         </Breadcrumb>
-                        <h2>{campsite.name}</h2>
+                        <h2>{props.campsite.name}</h2>
                         <hr />
                     </div>
                 </div>
                 <div className="row">
-                    <RenderCampsite campsite={campsite}/>
+                    <RenderCampsite campsite={props.campsite}/>
                     <RenderComments 
                         comments={props.comments} 
                         addComment={props.addComment}
@@ -71,6 +93,7 @@ function CampsiteInfo(props) {
 
 const maxLength = len => val => !val || (val.length <= len);
 const minLength = len => val => val && (val.length >= len);
+const hasRating = value => value >= 1;
 class CommentForm extends Component {
 
     constructor(props) {
@@ -78,7 +101,11 @@ class CommentForm extends Component {
 
         this.state = {
             isNavOpen: false,
-            isModalOpen: false
+            isModalOpen: false,
+            touched: {
+                author: false,
+                rating: false
+            }
         };
 
         this.toggleNav = this.toggleNav.bind(this);
@@ -117,13 +144,27 @@ class CommentForm extends Component {
                             <Row className="form-group">
                                 <Label htmlFor="rating" md={12}>Rating</Label>
                                 <Col md={12}>
-                                    <Control.select model=".rating" id="rating">
+                                    <Control.select model=".rating" id="rating"    
+                                        className="form-control"
+                                        validators={
+                                            { hasRating }
+                                        }>
+                                        <option value="0">Selection...</option>
                                         <option value="1">1</option>
                                         <option value="2">2</option>
                                         <option value="3">3</option>
                                         <option value="4">4</option>
                                         <option value="5">5</option>
                                     </Control.select>
+                                    <Errors
+                                        className="text-danger"
+                                        model=".rating"
+                                        show="touched"
+                                        component="div"
+                                        messages={{
+                                            hasRating: 'Please Select a Rating'
+                                        }}
+                                    />
                                 </Col>
                             </Row>
                             <Row className="form-group">
@@ -154,7 +195,7 @@ class CommentForm extends Component {
                                 <Col md={12}>
                                     <Control.textarea model=".text" id="text" name="text"
                                         rows="6"
-                                        className="form-control"
+                                        className="form-control"  
                                     />
                                 </Col>
                                 </Row>
