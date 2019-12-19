@@ -2,7 +2,7 @@ import React from 'react';
 import { Breadcrumb, BreadcrumbItem, Card, CardBody, CardHeader, Media } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { baseUrl } from '../shared/baseUrl';
-
+import { Fade, Loop } from 'react-animation-components';
 
 function RenderPartner({partner}) {
 
@@ -67,17 +67,21 @@ function About(props) {
                     </Card>
                 </div>
                 <div className="col">
-                    <Card className="bg-light mt-3">
-                        <CardBody>
-                            <blockquote className="blockquote">
-                                <p className="mb-0">I will not follow where the path may lead, but I will go where there is no path, and I will leave a trail.</p>
-                                <footer className="blockquote-footer">Muriel Strode,{' '}
-                                    <cite title="Source Title">"Wind-Wafted Wild Flowers" -
-                                    The Open Court, 1903</cite>
-                                </footer>
-                            </blockquote>
-                        </CardBody>
-                    </Card>
+                    <Loop in interval={5000} duration={5000}>
+                        <Fade>
+                            <Card className="bg-light mt-3">
+                                <CardBody>
+                                    <blockquote className="blockquote">
+                                        <p className="mb-0">I will not follow where the path may lead, but I will go where there is no path, and I will leave a trail.</p>
+                                        <footer className="blockquote-footer">Muriel Strode,{' '}
+                                            <cite title="Source Title">"Wind-Wafted Wild Flowers" -
+                                            The Open Court, 1903</cite>
+                                        </footer>
+                                    </blockquote>
+                                </CardBody>
+                            </Card>
+                        </Fade>
+                    </Loop>
                 </div>
             </div>
             <div className="row row-content">
