@@ -2,6 +2,7 @@
   "name": "nucampsite",
   "version": "0.1.0",
   "private": true,
+  "homepage" : "http://dsreliete.github.io/nucampsite",
   "dependencies": {
     "bootstrap": "4.0.0",
     "bootstrap-social": "5.1.1",
