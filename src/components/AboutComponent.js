@@ -23,8 +23,8 @@ function RenderPartner({partner}) {
     return <div />        
 }
 
-function PartnerList({isLoading, partnerList, errorMessage}) {
-    const partners = partnerList.partners.map(partner => {
+function PartnerList({partnerList, isLoading, errMess}) {
+    const partner = partnerList.partners.map(partner => {
         return (
             <Media tag="li" key={partner.id}> 
                 <RenderPartner partner={partner}/>
@@ -38,22 +38,25 @@ function PartnerList({isLoading, partnerList, errorMessage}) {
         );
     }
 
-    if(errorMessage) {
+    if(errMess) {
         return (
             <div className="col">
-                <h4>{errorMessage}</h4>
+                <h4>{errMess}</h4>
             </div>
         );
     }
 
-    return <div className="col mt-4">
+    return (
+        <div className="col mt-4">
             <Media list>
-                {partners}        
+                {partner}        
             </Media>
         </div>
+    );    
 }
 
 function About(props) {
+    console.log(props)
     return (
         <div className="container">
             <div className="row">
@@ -111,9 +114,9 @@ function About(props) {
                     <h3>Community Partners</h3>
                 </div>
                 <PartnerList 
-                    partners={props.partners}
-                    partnerLoading={props.partners.isLoading}
-                    partnerErrMess={props.partners.errMess} 
+                    partnerList={props.partners}
+                    isLoading={props.partners.isLoading}
+                    errMess={props.partners.errMess} 
                 />
             </div>
         </div>

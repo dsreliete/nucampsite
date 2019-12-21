@@ -75,7 +75,7 @@ class Main extends Component {
         const AboutUs = () => {
             return(
                 <About 
-                    partners = {this.props.partners}
+                    partners={this.props.partners}
                     partnerLoading={this.props.partners.isLoading}
                     partnerErrMess={this.props.partners.errMess}
                 />
