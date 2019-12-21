@@ -3,6 +3,7 @@ import { Breadcrumb, BreadcrumbItem, Card, CardBody, CardHeader, Media } from 'r
 import { Link } from 'react-router-dom';
 import { baseUrl } from '../shared/baseUrl';
 import { Fade, Loop } from 'react-animation-components';
+import { Loading } from './LoadingComponent';
 
 function RenderPartner({partner}) {
 
@@ -22,9 +23,8 @@ function RenderPartner({partner}) {
     return <div />        
 }
 
-function About(props) {
-
-    const partners = props.partners.partners.map(partner => {
+function PartnerList({isLoading, partnerList, errorMessage}) {
+    const partners = partnerList.partners.map(partner => {
         return (
             <Media tag="li" key={partner.id}> 
                 <RenderPartner partner={partner}/>
@@ -32,6 +32,28 @@ function About(props) {
         );
     });
 
+    if (isLoading) {
+        return (
+            <Loading />
+        );
+    }
+
+    if(errorMessage) {
+        return (
+            <div className="col">
+                <h4>{errorMessage}</h4>
+            </div>
+        );
+    }
+
+    return <div className="col mt-4">
+            <Media list>
+                {partners}        
+            </Media>
+        </div>
+}
+
+function About(props) {
     return (
         <div className="container">
             <div className="row">
@@ -88,11 +110,11 @@ function About(props) {
                 <div className="col-12">
                     <h3>Community Partners</h3>
                 </div>
-                <div className="col mt-4">
-                    <Media list>
-                        {partners}
-                    </Media>
-                </div>
+                <PartnerList 
+                    partners={props.partners}
+                    partnerLoading={props.partners.isLoading}
+                    partnerErrMess={props.partners.errMess} 
+                />
             </div>
         </div>
     );

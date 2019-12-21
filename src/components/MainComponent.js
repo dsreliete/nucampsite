@@ -50,7 +50,7 @@ class Main extends Component {
                     campsite={this.props.campsites.campsites.filter(campsite => campsite.featured)[0]}
                     campsitesLoading={this.props.campsites.isLoading}
                     campsitesErrMess={this.props.campsites.errMess}
-                    partner={this.props.partners.partners.filter(partner => partner.featured)[0]}
+                    partners={this.props.partners.partners.filter(partner => partner.featured)[0]}
                     partnerLoading={this.props.partners.isLoading}
                     partnerErrMess={this.props.partners.errMess}
                 />
@@ -76,6 +76,8 @@ class Main extends Component {
             return(
                 <About 
                     partners = {this.props.partners}
+                    partnerLoading={this.props.partners.isLoading}
+                    partnerErrMess={this.props.partners.errMess}
                 />
             );
         }
